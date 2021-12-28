@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import Navbar from "../Navbar/Navbar";
+import WeatherApp from "../WeatherApp/WeatherApp";
 
 function App() {
-  return <Navbar></Navbar>;
+  return <WeatherApp />;
 }
 
 export default App;
