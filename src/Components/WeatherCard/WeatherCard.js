@@ -5,8 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
+import { TextField } from "@mui/material";
 
 function WeatherCard() {
+  console.log(process.env.REACT_APP_WEATHER_API);
+
   return (
     <Grid
       container
@@ -21,28 +24,22 @@ function WeatherCard() {
             textAlign: "center",
           }}
         >
-          <CardContent>
+          <CardContent sx={{ flexDirection: "column" }}>
             <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{ marginBottom: "1rem" }}
             >
-              Word of the Day
-            </Typography>
-            <Typography variant="h5" component="div">
               Weather
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              adjective
-            </Typography>
-            <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
+            <TextField
+              id="outlined-basic"
+              label="Enter City"
+              variant="outlined"
+            />
           </CardContent>
           <CardActions sx={{ justifyContent: "center" }}>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Search</Button>
           </CardActions>
         </Card>
       </Grid>
