@@ -6,10 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import { TextField } from "@mui/material";
+import Weather from "../Weather/Weather";
 
 function WeatherCard() {
-  console.log(process.env.REACT_APP_WEATHER_API);
-
   return (
     <Grid
       container
@@ -37,6 +36,7 @@ function WeatherCard() {
               label="Enter City"
               variant="outlined"
             />
+            <Weather />
           </CardContent>
           <CardActions sx={{ justifyContent: "center" }}>
             <Button size="small">Search</Button>
