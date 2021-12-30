@@ -1,14 +1,29 @@
 import * as React from "react";
+import { useState } from "react";
+import useInputState from "../../hooks/useInputState";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import { TextField } from "@mui/material";
-import Weather from "../Weather/Weather";
+import Button from "@mui/material/Button";
+import axios from "axios";
 
 function WeatherCard() {
+  const [value, handleChange, reset] = useInputState("");
+  const [temp, setTemp] = useState("");
+
+  const API_KEY = process.env.REACT_APP_WEATHER_API;
+  let city = value;
+  const api_url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`;
+
+  async function getData() {
+    const response = await axios.get(api_url);
+    setTemp(response.data.main.temp);
+    reset();
+  }
+
   return (
     <Grid
       container
@@ -35,11 +50,16 @@ function WeatherCard() {
               id="outlined-basic"
               label="Enter City"
               variant="outlined"
+              value={value}
+              onChange={handleChange}
+              sx={{ paddingBottom: "1rem" }}
             />
-            <Weather />
+            <div>{temp} Degrees</div>
           </CardContent>
           <CardActions sx={{ justifyContent: "center" }}>
-            <Button size="small">Search</Button>
+            <Button size="small" onClick={getData}>
+              Search
+            </Button>
           </CardActions>
         </Card>
       </Grid>
