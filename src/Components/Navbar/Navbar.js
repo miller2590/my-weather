@@ -15,7 +15,7 @@ function Navbar() {
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            My Weather
+            My Weather App
           </Typography>
         </Toolbar>
       </AppBar>

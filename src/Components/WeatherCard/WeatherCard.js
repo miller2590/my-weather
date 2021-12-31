@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useContext } from "react";
+import axios from "axios";
 import useInputState from "../../hooks/useInputState";
 import { Grid, TextField } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -6,19 +8,22 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import axios from "axios";
 import TempList from "../TempList/TempList";
+import { WeatherContext } from "../../Contexts/WeatherContext";
 
-function WeatherCard({ temp, setTemp }) {
+function WeatherCard() {
   const [value, handleChange, reset] = useInputState("");
+  const { updateTemp, updateDescription } = useContext(WeatherContext);
 
   const API_KEY = process.env.REACT_APP_WEATHER_API;
-  let city = value;
-  const api_url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`;
+  const api_url = "https://api.openweathermap.org/data/2.5/weather?";
 
   async function getData() {
-    const response = await axios.get(api_url);
-    setTemp(response.data.main.temp);
+    const response = await axios.get(api_url, {
+      params: { appid: API_KEY, q: value, units: "imperial" },
+    });
+    await updateTemp(response);
+    await updateDescription(response);
   }
 
   return (
@@ -48,7 +53,7 @@ function WeatherCard({ temp, setTemp }) {
                 component="div"
                 sx={{ marginBottom: "1rem" }}
               >
-                Weather
+                My Weather
               </Typography>
               <TextField
                 id="outlined-basic"
@@ -57,9 +62,10 @@ function WeatherCard({ temp, setTemp }) {
                 value={value}
                 onChange={handleChange}
                 sx={{ paddingBottom: "1rem" }}
+                fullWidth
               />
               <div>
-                <TempList temp={temp} />
+                <TempList />
               </div>
             </CardContent>
             <CardActions sx={{ justifyContent: "center" }}>
