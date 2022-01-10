@@ -1,6 +1,5 @@
 import React from "react";
 import { useContext } from "react";
-import axios from "axios";
 import useInputState from "../../hooks/useInputState";
 import { Grid, TextField } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -15,17 +14,6 @@ function WeatherCard() {
   const [value, handleChange, reset] = useInputState("");
   const { updateTemp, updateDescription } = useContext(WeatherContext);
 
-  const API_KEY = process.env.REACT_APP_WEATHER_API;
-  const api_url = "https://api.openweathermap.org/data/2.5/weather?";
-
-  async function getData() {
-    const response = await axios.get(api_url, {
-      params: { appid: API_KEY, q: value, units: "imperial" },
-    });
-    await updateTemp(response);
-    await updateDescription(response);
-  }
-
   return (
     <Grid
       container
@@ -38,7 +26,8 @@ function WeatherCard() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            getData();
+            updateTemp(value);
+            updateDescription(value);
             reset();
           }}
         >
@@ -73,7 +62,8 @@ function WeatherCard() {
                 size="small"
                 onClick={(e) => {
                   e.preventDefault();
-                  getData();
+                  updateTemp(value);
+                  updateDescription(value);
                   reset();
                 }}
               >

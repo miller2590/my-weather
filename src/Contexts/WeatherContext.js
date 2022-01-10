@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { apiData } from "../services/api/core";
 
 export const WeatherContext = createContext();
 
@@ -6,13 +7,15 @@ export function WeatherProvider(props) {
   const [temp, setTemp] = useState("");
   const [description, setDescription] = useState("");
 
-  const updateDescription = (response) => {
-    setDescription(response.data.weather[0].description);
-  };
+  async function updateDescription(location) {
+    let currentDescription = await apiData.getCurrentDescription(location);
+    setDescription(currentDescription);
+  }
 
-  const updateTemp = (response) => {
-    setTemp(response.data.main.temp);
-  };
+  async function updateTemp(location) {
+    let currentTemp = await apiData.getCurrentTemp(location);
+    setTemp(currentTemp);
+  }
 
   return (
     <WeatherContext.Provider
